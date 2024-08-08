@@ -1,0 +1,22 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  
+    .pagination__prev,
+    .pagination__next,
+    .pagination__page {
+      margin: 0 5px;
+      padding: 5px 10px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      color: #333;
+  
+      &--active {
+        background-color: #333;
+        color: #fff;
+      }
+    }
+  }
+  

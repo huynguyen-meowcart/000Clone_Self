@@ -1,0 +1,20 @@
+{% comment %}
+  <div class="pagination">
+    {% if paginate.previous %}
+      <a href="{{ paginate.previous.url }}" class="pagination__prev">Previous</a>
+    {% endif %}
+
+    {% for i in (1..paginate.pages) %}
+      <a
+        href="{{ paginate.pages[i].url }}"
+        class="pagination__page {% if paginate.current == i %}pagination__page--active{% endif %}"
+      >
+        {{ i }}
+      </a>
+    {% endfor %}
+
+    {% if paginate.next %}
+      <a href="{{ paginate.next.url }}" class="pagination__next">Next</a>
+    {% endif %}
+  </div>
+{% endcomment %}

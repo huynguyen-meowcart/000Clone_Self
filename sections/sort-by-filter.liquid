@@ -1,0 +1,167 @@
+<div class="select-sort-by-filter">
+  {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+  <!-- Sort by form -->
+  <div class="sort-section" id="sortSection">
+    <div class="sort-title"><span>Sort By</span></div>
+    <form id="sortForm" method="get" action="{{ collection.url }}" class="sort-form">
+      <input type="hidden" name="sort_by" id="sortByValue" value="{{ sort_by }}">
+      {%- for option in collection.sort_options -%}
+        {% unless option.value contains 'title-ascending'
+          or option.value contains 'title-descending'
+          or option.value contains 'created-descending'
+          or option.value contains 'created-ascending'
+        %}
+          <div class="sort-options">
+            <ul class="sort-by">
+              <li class="sort-item">
+                <a
+                  href="#"
+                  class="sort-by-link"
+                  data-value="{{ option.value | escape }}"
+                >
+                  <span class="{% if option.value == sort_by %}selected custom{% endif %}" id="span-link">
+                    {{ option.name | escape | upcase }}
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        {% endunless %}
+      {%- endfor -%}
+    </form>
+  </div>
+  <div class="filter-section" id="filterSection">
+    <div class="filter-title"><span>Filter</span></div>
+    <div class="section-list">
+      <form id="filterForm" method="get" action="{{ collection.url }}">
+        <!-- Container for selected filters -->
+        <div class="selected-filters" id="selectedFiltersContainer">
+          <div class="selected-content">
+            <div class="clear-title"><a href="{{ collection.url }}?sort_by={{ collection.sort_by }}">Clear all</a></div>
+            {%- for filter in collection.filters -%}
+              {%- for filter_value in filter.active_values -%}
+                <div class="section-selected-filter">
+                  <div class="full-width-link" data-url="{{ filter_value.url_to_remove }}">
+                    <div class="layout-selected-filter">
+                      <div class="section-1">
+                        <div class="type-filter">{{ filter.label }}:</div>
+                        <div class="name-selected-filter">{{ filter_value.label }}</div>
+                      </div>
+                      <div class="section-2">
+                        <span>{% render 'icon-close-small' %}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        </div>
+        {%- for filter in collection.filters -%}
+          <div class="section-field {% if forloop.first %}first-filter{% endif %}">
+            <h2 class="filter-1-title">{{ filter.label }}</h2>
+            <div class="filter-1-content">
+              <ul class="filter-list">
+                {%- for filter_value in filter.values -%}
+                  <li class="list-filter" data-value="{{ filter_value.value }}">
+                    <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}">
+                      <input
+                        type="checkbox"
+                        onchange="this.form.submit()"
+                        name="{{ filter.param_name }}"
+                        value="{{ filter_value.value }}"
+                        id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+                        {% if filter_value.active or filter_value.default %}
+                          checked
+                        {% endif %}
+                        {% if filter_value.count == 0 and filter_value.active == false %}
+                          disabled
+                        {% endif %}
+                      >
+                      <span class="for-add-box">{{ filter_value.label }}</span>
+                    </label>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        {%- endfor -%}
+      </form>
+    </div>
+  </div>
+</div>
+
+{{ 'sort-by-filter.scss' | asset_url | stylesheet_tag }}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // for tag a to div
+    const links = document.querySelectorAll('.full-width-link');
+    links.forEach(function (link) {
+      link.addEventListener('click', function () {
+        const url = this.getAttribute('data-url');
+        window.location.href = url;
+      });
+    });
+
+    const sortLinks = document.querySelectorAll('.sort-by-link');
+    const sortByInput = document.getElementById('sortByValue');
+    const sortForm = document.getElementById('sortForm');
+
+    sortLinks.forEach((link) => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        const value = this.getAttribute('data-value');
+        sortByInput.value = value;
+        sortForm.submit();
+      });
+
+      link.addEventListener('mouseover', function () {
+        const span = this.querySelector('span');
+        if (!span.classList.contains('selected')) {
+          span.classList.add('custom');
+        }
+      });
+
+      link.addEventListener('mouseout', function () {
+        const span = this.querySelector('span');
+        if (!span.classList.contains('selected')) {
+          span.classList.remove('custom');
+        }
+      });
+    });
+
+    // Get filter values from the URL
+    const searchParams = new URLSearchParams(window.location.search);
+    const tagParams = searchParams.getAll('filter.p.tag');
+    const productTypeParams = searchParams.getAll('filter.p.product_type');
+    const colorTypeParams = searchParams.getAll('filter.v.option.color');
+    const tagsAndProductTypes = [...tagParams, ...productTypeParams, ...colorTypeParams];
+
+    // Apply 'custom' and 'selected' classes to matching spans
+    const spanList = document.querySelectorAll('.for-add-box');
+    spanList.forEach((span) => {
+      const spanText = span.textContent.trim();
+      if (tagsAndProductTypes.includes(spanText)) {
+        span.classList.add('custom', 'selected');
+      }
+    });
+
+    // filter
+    const filterElement = document.querySelectorAll('.list-filter');
+    filterElement.forEach((element) => {
+      element.addEventListener('mouseover', function () {
+        const spaner = this.querySelector('.for-add-box');
+        if (!spaner.classList.contains('selected')) {
+          spaner.classList.add('custom');
+        }
+      });
+      element.addEventListener('mouseout', function () {
+        const spaner = this.querySelector('.for-add-box');
+        if (!spaner.classList.contains('selected')) {
+          spaner.classList.remove('custom');
+        }
+      });
+    });
+  });
+</script>

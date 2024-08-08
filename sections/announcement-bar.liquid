@@ -1,0 +1,65 @@
+{% schema %}
+{
+  "name": "Annoucement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner Title",
+      "default": "EXTRA FREESHIP FOR ORDER ABOVE 200$"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "options": [
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" }
+      ],
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font Size",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#dddde6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default",
+      "category": "Header"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="announcement" style="background-color: {{ section.settings.background_color }}">
+  <div class="container">
+    <div class="announcement-content">
+      <div class="logo" style="text-align: {{ section.settings.logo_position }}">
+        <div style="font-size: {{ section.settings.font_size }}">{{ section.settings.banner_title }}</div>
+      </div>
+    </div>
+  </div>
+</div>

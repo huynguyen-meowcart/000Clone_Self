@@ -1,0 +1,32 @@
+<li class="product-item">
+  <div class="order_number">{{ number_order }}</div>
+  <a href="{{ product.url }}">
+    <div class="card-wrapper">
+      <div class="card-image">
+        {% if product.images.size > 0 %}
+          {% assign first_image = product.images.first %}
+          <div class="image2">
+            <img
+              class="motion-reduce blur-image1"
+              width="150"
+              height="400"
+              src="{{ first_image | img_url: 'large' }}"
+              alt="{{ product.title }}"
+            >
+          </div>
+        {% endif %}
+      </div>
+      <div class="card-content">
+        <div class="card-information">
+          <p class="product-title" style="color: {{ color_item}};">{{ product.title }}</p>
+          <p class="product-price" style="color: {{ color_item}};">
+            {{ product.price | money }}
+          </p>
+          <p>{{ product.compare_at_price }}</p>
+        </div>
+      </div>
+    </div>
+  </a>
+</li>
+
+{{ 'card-product.scss' | asset_url | stylesheet_tag }}

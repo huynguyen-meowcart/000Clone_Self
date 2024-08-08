@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Times, serif;
+        background-color: {{ settings.bg }};
+      }
+    </style>
+    {{ content_for_header }}
+  </head>
+  <body>
+    <div class="content">
+      <div class="header">
+        {% sections 'header-group' %}
+      </div>
+      <div class="content-wrapper">
+        {{ content_for_layout }}
+      </div>
+      {% comment %} {{ sections 'footer-group' }} {% endcomment %}
+    </div>
+  </body>
+</html>
+
+{{ 'base.scss' | asset_url | stylesheet_tag }}

@@ -1,0 +1,40 @@
+.navigation-content {
+    position: fixed !important;
+    top: 52px;
+    left: 0;
+    z-index: 1001;
+    .main-menu-navigation {
+        margin-top: 1px;
+        .navigation-item {
+            padding-top: 11px;
+            padding-right: 10px;
+            padding-bottom: 10px;
+            cursor: pointer;
+            list-style: none !important;
+            margin-bottom: 5px;
+
+            a {
+                text-decoration: none;
+                span {
+                    &:hover 
+                    {
+                        border-top: 1px solid black !important;
+                        border-left: 1px solid black !important;
+                    }
+                    font-weight: 400;
+                    font-size: 14px!important;
+                    line-height: 13px;
+                    letter-spacing: 0.02em;
+                    text-transform: uppercase;
+                    color: #1d1f44;
+                    box-shadow: 2.5px 2.5px 4px #0000000d;
+                    padding: 11px 10px 10px 25px;
+                    min-width: 126px;
+                    display: block;
+                    background-color: #fff;
+                    border: 0.5px solid transparent;
+                }
+            }
+        }
+    }
+}

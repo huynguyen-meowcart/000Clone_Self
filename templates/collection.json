@@ -1,0 +1,15 @@
+{
+    "sections":
+    {
+        "product-grid": {
+            "type": "collection-product-grid",
+          },
+          "filter": {
+            "type": "sort-by-filter",
+          }
+    },
+    "order": [
+        "product-grid",
+        "filter"
+      ]
+}

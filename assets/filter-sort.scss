@@ -1,0 +1,53 @@
+.mb-filter-container
+{
+    .filter-list
+    {
+        #filterForm
+        {
+            .filter-section-mb 
+            {
+                .filter-section-list-container
+                {
+                    .filter-section-list 
+                    {
+                        list-style: none!important;
+                        padding: 0;
+                        .item-filter 
+                        {
+                            margin-top: 10px !important;
+                        .mb-filter-value 
+                        {
+                            font-weight: 400;
+                            font-size: 1rem;
+                            line-height: 13px;
+                            letter-spacing: .02em;
+                            text-transform: uppercase;
+                            margin: 10px;
+                            cursor: pointer!important;
+                            &:hover
+                            {
+                                padding-left: 25px;
+                                transition: padding-left 0.3s ease-out;
+                            }
+                        }
+                    }
+                    }
+                }
+                .filter-label-mb 
+                {
+                    @media (max-width: 768px) {
+                            margin-bottom: 9px;
+
+                    }
+                    font-weight: 400;
+                    font-size: 1rem;
+                    line-height: 16px;
+                    letter-spacing: .02em;
+                    text-transform: uppercase;
+                    color: #a0a0a0!important;
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+}

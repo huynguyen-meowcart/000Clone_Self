@@ -1,0 +1,96 @@
+{% comment %} For filter component {% endcomment %}
+{% assign i = '000' %}
+<div class="collection">
+  {% comment %} {% render 'btn-modal-filter' %} {% endcomment %}
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="mb-content">
+        <span class="close">Cancel</span>
+        <span class="filter-title">Title</span>
+      </div>
+      <!-- Add your modal content here -->
+      <div class="filter-main-container-mb">
+        {% render 'filter-sort' %}
+      </div>
+    </div>
+  </div>
+  <!-- Button to open the modal -->
+  <button id="openModalBtn">Open Modal</button>
+  <div class="product-grid-container">
+    <ul class="product-grid">
+      {% paginate collection.products by section.settings.product_per_page %}
+        {% for product in collection.products %}
+          {% assign i_as_integer = i | plus: 0 %}
+          {% assign i_plus_one = i_as_integer | plus: 1 %}
+          {% assign i_plus_one_with_leading_zeros = i_plus_one | prepend: '00' %}
+          {% assign i_plus_one_with_leading_zeros = i_plus_one_with_leading_zeros | slice: -3, 3 %}
+          {% render 'card-product',
+            product: product,
+            color_item: section.settings.color_item,
+            number_order: i_plus_one_with_leading_zeros
+          %}
+          {% assign i = i_plus_one_with_leading_zeros %}
+        {% endfor %}
+      {% endpaginate %}
+    </ul>
+  </div>
+</div>
+
+{{ 'collection-product-grid.scss' | asset_url | stylesheet_tag }}
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "settings": [
+    {
+      "label": "Product Per Page",
+      "type": "range",
+      "id": "product_per_page",
+      "min": 3,
+      "max": 48,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color",
+      "id": "color_item",
+      "label": "Color",
+      "default": "#000000"
+    },
+
+    {
+      "type": "header",
+      "content": "Filtering and sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Enable Sorting and Filtering"
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('myModal');
+    var btn = document.getElementById('openModalBtn');
+    var span = document.getElementsByClassName('close')[0];
+
+    btn.addEventListener('click', function () {
+      modal.style.display = 'block';
+    });
+
+    span.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  });
+</script>
